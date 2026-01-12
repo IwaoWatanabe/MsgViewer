@@ -129,10 +129,20 @@ public class MSGNavigator extends BaseDialog {
         try (DocumentInputStream dstream = new DocumentInputStream(de)) {
             return new TreeNodeContainer(de,
                     "<html><body><b>" + de.getName() + "</b></body></html>",
-                    dstream.readAllBytes());
+                    readAllBytes(dstream));
         }
     }
 
+    static byte[] readAllBytes(java.io.InputStream in) throws java.io.IOException {
+        byte[] buffer = new byte[8192]; int n;
+        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+        while ((n = in.read(buffer)) != -1) {
+            baos.write(buffer, 0, n);
+        }
+        return baos.toByteArray();
+    }
+
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

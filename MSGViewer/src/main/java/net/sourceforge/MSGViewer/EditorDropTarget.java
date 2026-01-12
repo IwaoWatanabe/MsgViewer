@@ -115,7 +115,9 @@ class EditorDropTarget implements DropTargetListener {
 
     private void dragOver(JTextComponent pane, Point location) {
         if (draggingContent) {
-            pane.setCaretPosition(pane.viewToModel2D(location));
+            int pos = pane.viewToModel(location);
+            pane.setCaretPosition(pos);
+            // pane.setCaretPosition(pane.viewToModel2D(location));
         }
     }
 
@@ -139,7 +141,7 @@ class EditorDropTarget implements DropTargetListener {
     // This method handles a drop for a list of files
     private boolean dropFile(Transferable transferable) throws IOException,
             UnsupportedFlavorException {
-        var fileList = (Collection<File>) transferable
+        Collection<File> fileList = (Collection<File>) transferable
                 .getTransferData(DataFlavor.javaFileListFlavor);
         fileList.stream().map(File::getPath).forEach(messageView::view);
         return true;

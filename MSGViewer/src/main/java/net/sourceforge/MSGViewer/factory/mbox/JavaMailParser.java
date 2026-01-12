@@ -217,8 +217,17 @@ public class JavaMailParser {
     private static byte[] getContent(Part mp) throws IOException, MessagingException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try (InputStream in = mp.getInputStream()) {
-            in.transferTo(bos);
+            // in.transferTo(bos);
+            transferTo(in, bos);
         }
         return bos.toByteArray();
+    }
+
+
+    static long transferTo(java.io.InputStream in, java.io.OutputStream out) throws java.io.IOException {
+        byte[] buffer = new byte[8192]; long total = 0; int n;
+        while ((n = in.read(buffer)) >= 0) {
+            out.write(buffer, 0, n); total += n; }
+        return total;
     }
 }

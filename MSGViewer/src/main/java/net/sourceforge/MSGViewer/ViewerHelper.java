@@ -16,6 +16,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static at.redeye.FrameWork.base.BaseDialog.logger;
@@ -67,8 +68,8 @@ public class ViewerHelper {
         List<Attachment> attachments = message.getAttachments();
 
         for (Attachment att : attachments) {
-            if (att instanceof FileAttachment fatt) {
-
+            if (att instanceof FileAttachment) {
+                FileAttachment fatt = (FileAttachment) att;
                 Path content = attachmentRepository.getTempFile(fatt);
 
                 if (content.toUri().equals(uri)) {
@@ -85,7 +86,7 @@ public class ViewerHelper {
             }
         }
 
-        return Path.of(uri.getPath());
+        return Paths.get(uri.getPath());
     }
 
     public static boolean isValidEmail(String email) {

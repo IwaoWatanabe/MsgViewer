@@ -40,6 +40,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -81,7 +82,7 @@ public class ViewerPanel extends JPanel implements Printable, MessageView {
         new DropTarget(header, DnDConstants.ACTION_COPY_OR_MOVE, new EditorDropTarget(this), true, null);
         new DropTarget(body, DnDConstants.ACTION_COPY_OR_MOVE, new EditorDropTarget(this), true, null);
 
-        boolean rtfFormat = StringUtils.isYes(root.getSetup().getConfig("RTFFormat", "yes"))
+        boolean rtfFormat = StringUtils.isYes(root.getSetup().getConfig("RTFFormat", "no"))
                 && Stream.of(root.getStartupArgs()).noneMatch(s -> s.equals(CLI_STARTUP_TEXT_VIEW));
 
         jRRTF.setSelected(rtfFormat);
@@ -111,8 +112,13 @@ public class ViewerPanel extends JPanel implements Printable, MessageView {
     private static String decode(String file_name) {
         if (file_name.startsWith("file:")) {
             return new AutoMBox<>(ViewerPanel.class.getName(), () -> {
-                String decoded_file_name = URLDecoder.decode(file_name, StandardCharsets.UTF_8);
+                try {
+                String decoded_file_name = URLDecoder.decode(file_name, "utf-8");
                 return new URL(decoded_file_name).getFile();
+                } catch (Exception ex) {
+                    logger.error("Cannot decode filename: {}", file_name, ex);
+                    return file_name;
+                }
             }).resultOrElse(file_name);
         }
         return file_name;
@@ -261,8 +267,8 @@ public class ViewerPanel extends JPanel implements Printable, MessageView {
 
         EditorKit editor = body.getEditorKit();
 
-        if (editor instanceof HTMLEditorKit html_editor) {
-
+        if (editor instanceof HTMLEditorKit) {
+            HTMLEditorKit html_editor = (HTMLEditorKit) editor;
             System.out.println("Value: " + jSFontSize.getValue());
 
             Source source = new Source(body.getText());
@@ -426,7 +432,7 @@ public class ViewerPanel extends JPanel implements Printable, MessageView {
     }
 
     private void parseMessage() throws Exception {
-        Path file = Path.of(file_name);
+        Path file = Paths.get(file_name);
         if (!Files.exists(file))
             throw new FileNotFoundException(parent.MlM(String.format("File %s not found", file_name)));
         message = new MessageParser(file).parseMessage();

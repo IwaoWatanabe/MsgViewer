@@ -87,8 +87,8 @@ public class ExtractStrings {
 
     private void extractStrings(Container cont) {
         for (Component comp : cont.getComponents()) {
-            if (comp instanceof JComponent jcomp) {
-
+            if (comp instanceof JComponent) {
+                JComponent jcomp = (JComponent) comp;
                 String text = jcomp.getToolTipText();
 
                 if( text != null && !text.isEmpty() )
@@ -98,7 +98,8 @@ public class ExtractStrings {
 
                 Border border = jcomp.getBorder();
 
-                if (border instanceof TitledBorder tborder) {
+                if (border instanceof TitledBorder) {
+                    TitledBorder tborder = (TitledBorder) border;
                     text = tborder.getTitle();
 
                     if( text != null && !text.isEmpty() )

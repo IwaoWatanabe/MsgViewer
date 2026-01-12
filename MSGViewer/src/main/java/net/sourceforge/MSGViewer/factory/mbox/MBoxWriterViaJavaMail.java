@@ -30,7 +30,6 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.regex.Pattern;
 
-import static java.util.Objects.requireNonNullElse;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class MBoxWriterViaJavaMail {
@@ -123,7 +122,7 @@ public class MBoxWriterViaJavaMail {
         String plain_text_string = msg.getBodyText();
 
         MimeBodyPart textPart = new MimeBodyPart();
-        textPart.setText(requireNonNullElse(plain_text_string, ""));
+        textPart.setText(plain_text_string != null ? plain_text_string : "");
         mp_alternate.addBodyPart(textPart);
     }
 

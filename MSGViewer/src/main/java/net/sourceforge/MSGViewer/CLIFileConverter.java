@@ -13,6 +13,7 @@ import java.awt.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public abstract class CLIFileConverter {
 	void work() {
 		List<String> processableFiles = Arrays.stream(module_launcher.args)
 				.filter(sourcePath -> sourcePath.toLowerCase().endsWith(String.format(".%s", sourceType)))
-				.toList();
+				.collect(java.util.stream.Collectors.toList());
 		processableFiles.forEach(this::processFile);
 
 		if (processableFiles.isEmpty()) {
@@ -82,7 +83,7 @@ public abstract class CLIFileConverter {
 	}
 
 	private void processFile(String sourceFilePath) {
-        Path sourceFile = Path.of(sourceFilePath).toAbsolutePath();
+        Path sourceFile = Paths.get(sourceFilePath).toAbsolutePath();
         String fileName = sourceFile.getFileName().toString();
         int idx = fileName.lastIndexOf('.');
         String baseFileName = fileName.substring(0, idx);

@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class TranslationDialog extends BaseDialog {
@@ -556,7 +557,7 @@ public class TranslationDialog extends BaseDialog {
     }
 
     public static String getTranslationsDir(Root root) {
-        String dir = Setup.getAppConfigDir(Path.of(System.getProperty("user.home")), root.getAppName()) + "/translations/";
+        String dir = Setup.getAppConfigDir(Paths.get(System.getProperty("user.home")), root.getAppName()) + "/translations/";
 
         File fdir = new File(dir);
 

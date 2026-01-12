@@ -1,0 +1,4 @@
+
+include ':FrameWorkMinimized'
+include ':msgparser'
+include ':MSGViewer'

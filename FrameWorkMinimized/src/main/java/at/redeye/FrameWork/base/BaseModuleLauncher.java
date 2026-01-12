@@ -4,6 +4,7 @@ import at.redeye.FrameWork.utilities.*;
 import at.redeye.FrameWork.widgets.StartupWindow;
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 import javax.swing.*;
@@ -105,7 +106,7 @@ public class BaseModuleLauncher {
         String loggingEnabled = BaseAppConfigDefinitions.DoLogging.getConfigValue();
 
         if (logFileDir.equals("APPHOME"))
-            logFileDir = Setup.getAppConfigDir(Path.of(System.getProperty("user.home")), root.getAppName()).resolve("log").toString();
+            logFileDir = Setup.getAppConfigDir(Paths.get(System.getProperty("user.home")), root.getAppName()).resolve("log").toString();
 
         String filename = logFileDir + (logFileDir.isEmpty() ? "" : "/")
                 + "log.OS-" + System.getProperty("user.name", "unknown-user")
@@ -152,10 +153,22 @@ public class BaseModuleLauncher {
         logger.debug("Found LookAndFeel PRM value: <{}>", config);
 
         try {
-            UIManager.setLookAndFeel(UIManager.createLookAndFeel(config));
+            
+            Class<?> clazz = Class.forName(config);
+            javax.swing.LookAndFeel laf = (javax.swing.LookAndFeel) clazz.newInstance();
+            UIManager.setLookAndFeel(laf); return;
+        } catch (ClassNotFoundException e) {
+        } catch (InstantiationException e) {
+        } catch (IllegalAccessException e) {
         } catch (UnsupportedLookAndFeelException e) {
-            List<String> names = Arrays.stream(UIManager.getInstalledLookAndFeels()).map(UIManager.LookAndFeelInfo::getName).toList();
-            logger.error("{} is unavailable. Available LnF: {}", config, names);
         }
+        javax.swing.UIManager.LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
+        List<String> names = new ArrayList<>();
+        if (lafs != null) {
+            for (javax.swing.UIManager.LookAndFeelInfo laf : lafs) {
+                names.add(laf.getName());
+            }
+        }
+        logger.error("{} is unavailable. Available LnF: {}", config, names);
     }
 }

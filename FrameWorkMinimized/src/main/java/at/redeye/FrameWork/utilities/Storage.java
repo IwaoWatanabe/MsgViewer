@@ -3,6 +3,7 @@ package at.redeye.FrameWork.utilities;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Storage {
 
@@ -22,7 +23,7 @@ public class Storage {
         try {
             return Files.createTempDirectory(prefix + "-");
         } catch (IOException e) {
-            return Path.of(System.getProperty("java.io.tmpdir"), prefix);
+            return Paths.get(System.getProperty("java.io.tmpdir"), prefix);
         }
     }
 }

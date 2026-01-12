@@ -28,7 +28,8 @@ class PrepareImages {
         this.attachmentRepository = attachmentRepository;
 
         for (Attachment att : message.getAttachments()) {
-            if (att instanceof FileAttachment fatt) {
+            if (att instanceof FileAttachment) {
+                FileAttachment fatt = (FileAttachment) att;
                 if (fatt.getContentId() != null) {
                     attachmentById.put(fatt.getContentId(), fatt);
                 }

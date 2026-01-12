@@ -19,12 +19,11 @@ public class MessageParser {
 
     public Message parseMessage() throws Exception {
         String extention = getExtension(file.toString());
-
-        return switch (extention) {
-            case "msg", "oft" -> parseMsgFile();
-            case "mbox", "eml" -> parseJavaMailFile();
-            default -> throw new Exception("Extension '" + extention + "' not supported");
-        };
+        switch (extention) {
+        case "msg": case "oft" : return parseMsgFile();
+        case "mbox": case "eml" : return parseJavaMailFile();
+        default: throw new Exception("Extension '" + extention + "' not supported");
+        }
     }
 
     private Message parseMsgFile() throws IOException {

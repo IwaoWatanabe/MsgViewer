@@ -61,14 +61,22 @@ public class CLIOption {
         }
 
     }
+    
+    static String repeat(String str, int count) {
+        if (str == null) { return null; }
+        if (count <= 0) { return ""; }
+        StringBuilder sb = new StringBuilder(str.length() * count);
+        for (int i = 0; i < count; i++) { sb.append(str); }
+        return sb.toString();
+    }
 
     private static void addWithFillSpacesTrailing(StringBuilder sb, String value, int len) {
         sb.append(value);
-        sb.append(" ".repeat(Math.max(0, len - value.length())));
+        sb.append(repeat(" ", Math.max(0, len - value.length())));
     }
 
     private static void addWithFillSpacesLeading(StringBuilder sb, int len) {
-        sb.append(" ".repeat(Math.max(0, len - "".length())));
+        sb.append(repeat(" ", Math.max(0, len - "".length())));
     }
 
     private static String addWithFillSpacesLeading(int len) {
@@ -86,6 +94,6 @@ public class CLIOption {
 
         return Arrays.stream(breaked_array)
                 .map(s -> addWithFillSpacesLeading(fill_len_to_short_description) + s)
-                .toList();
+                .collect(java.util.stream.Collectors.toList());
     }
 }

@@ -264,7 +264,7 @@ public class MsgContainer {
 
         List<PropType> props = entries.stream()
                 .map(SubStorageEntry::getPropType)
-                .toList();
+                .collect(java.util.stream.Collectors.toList());
 
         ByteBuffer bytes = createPropertiesEntryContent(props);
 

@@ -26,11 +26,20 @@ public class TopLevelPropertyStream
         try {
             property_entry = (DocumentEntry) root.getEntry(NAME);
             try (DocumentInputStream stream = new DocumentInputStream(property_entry)) {
-                bytes = stream.readAllBytes();
+                bytes = readAllBytes(stream);
             }
 
         } catch (FileNotFoundException ignored) {
         }
+    }
+
+    static byte[] readAllBytes(java.io.InputStream in) throws java.io.IOException {
+        byte[] buffer = new byte[8192]; int n;
+        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+        while ((n = in.read(buffer)) != -1) {
+            baos.write(buffer, 0, n);
+        }
+        return baos.toByteArray();
     }
 
     /**

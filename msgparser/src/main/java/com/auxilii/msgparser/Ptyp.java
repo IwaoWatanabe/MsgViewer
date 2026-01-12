@@ -122,18 +122,28 @@ public enum Ptyp {
 
     private static byte[] getBytes(DocumentInputStream s) {
         try {
-            return s.readAllBytes();
+            return readAllBytes(s);
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
+    
+    static byte[] readAllBytes(java.io.InputStream in) throws java.io.IOException {
+        byte[] buffer = new byte[8192]; int n;
+        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+        while ((n = in.read(buffer)) != -1) {
+            baos.write(buffer, 0, n);
+        }
+        return baos.toByteArray();
+    }
 
     private static byte[] getGuid(DocumentInputStream s) {
-        try {
-            return s.readNBytes(16);
-        } catch (IOException ex) {
-            throw new UncheckedIOException(ex);
-        }
+        // try {
+            byte[] buf = new byte[16];
+            s.readFully(buf); return buf;
+        // } catch (IOException ex) {
+        //     throw new UncheckedIOException(ex);
+        // }
     }
 
     private static LocalDateTime toFloatingTime(DocumentInputStream s) {

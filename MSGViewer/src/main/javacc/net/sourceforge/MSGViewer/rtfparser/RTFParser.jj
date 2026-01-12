@@ -16,7 +16,7 @@ import java.util.*;
 
 public class RTFParser {
 
-    private final Deque<RTFGroup> groups = new LinkedList<>();
+    private final Deque<RTFGroup> groups = new LinkedList();
     private final StringBuilder htmlContent = new StringBuilder();
     private RTFGroup current_group;
     private Charset characterSet;
@@ -144,7 +144,8 @@ void set_codepage() :
 {
     codepage = <C_CODEPAGE>
     {
-        characterSet = Charset.forName(codepage.image.replace("\\ansicpg", "CP"));
+        String cn = codepage.image.replace("\\ansicpg", "CP");
+        characterSet = Charset.forName("CP932".equals(cn) ? "sjis" : cn);
     }
 }
 

@@ -173,7 +173,8 @@ public enum Pid {
 
     Pid(int id, Ptyp... typ) {
         this.id = id;
-        this.typ = Set.of(typ);
+        // this.typ = Set.of(typ);
+        this.typ = new java.util.HashSet<>(Arrays.asList(typ));
     }
 
     public static Pid from(int id, Ptyp typ) {

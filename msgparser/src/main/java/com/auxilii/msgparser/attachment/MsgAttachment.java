@@ -29,7 +29,24 @@ import com.auxilii.msgparser.Message;
  * @param message The encapsulated (attached) message.
  * @author roman.kurmanowytsch
  */
-public record MsgAttachment(Message message) implements Attachment {
+public class MsgAttachment implements Attachment {
+	private final Message message;
+	public MsgAttachment(Message message) {
+		this.message = message;
+	}
+
+	public Message message() {
+		return message;
+	}
+
+	@Override
+	public int hashCode() {
+		return message.hashCode();
+	}
+
+	boolean equals(MsgAttachment other) {
+		return this.message.equals(other.message);
+	}
 
 	/**
 	 * Returns the String returned by

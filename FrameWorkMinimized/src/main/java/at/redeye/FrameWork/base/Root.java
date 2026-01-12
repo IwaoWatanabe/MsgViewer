@@ -6,6 +6,7 @@ import at.redeye.FrameWork.base.translation.MLHelper;
 import at.redeye.FrameWork.utilities.Storage;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 
 public class Root {
@@ -50,7 +51,7 @@ public class Root {
     public Root(String app_name) {
         this.app_name = app_name;
         static_root = this;
-        setup = new Setup(Path.of(System.getProperty("user.home")), app_name);
+        setup = new Setup(Paths.get(System.getProperty("user.home")), app_name);
         storage = Storage.getEphemeralStorage(this.app_name);
         dialogs = new Dialogs(this);
         ml_helper = new MLHelper(this);
@@ -158,7 +159,7 @@ public class Root {
     public String getDisplayLanguage()
     {
         String lang = BaseAppConfigDefinitions.DisplayLanguage.getConfigValue();
-        if (lang == null || lang.isBlank()) {
+        if (lang == null || lang.trim().length() == 0) {
             return getDefaultLanguage();
         }
         return lang;
