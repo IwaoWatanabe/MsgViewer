@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import static com.google.common.jimfs.Configuration.unix;
 import static org.assertj.core.api.Assertions.assertThat;
+import static net.sourceforge.MSGViewer.R8.readAllBytes;
 
 class MsgWriterTest {
 
@@ -59,15 +60,6 @@ class MsgWriterTest {
                 }
             }
         }
-    }
-
-    static byte[] readAllBytes(java.io.InputStream in) throws java.io.IOException {
-        byte[] buffer = new byte[8192]; int n;
-        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
-        while ((n = in.read(buffer)) != -1) {
-            baos.write(buffer, 0, n);
-        }
-        return baos.toByteArray();
     }
 
     private static Message givenMessage(String name) throws Exception {

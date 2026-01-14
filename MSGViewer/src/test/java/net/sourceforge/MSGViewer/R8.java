@@ -6,7 +6,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Files;
 
-public class R8 {
+public final class R8 {
 
 public static byte[] readAllBytes(java.io.InputStream in) throws java.io.IOException {
     byte[] buffer = new byte[8192]; int n;
