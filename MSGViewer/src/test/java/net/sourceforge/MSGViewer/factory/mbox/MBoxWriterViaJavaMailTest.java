@@ -13,7 +13,9 @@ import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import static net.sourceforge.MSGViewer.R8.readString;
 import static com.google.common.jimfs.Configuration.unix;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -90,7 +92,7 @@ class MBoxWriterViaJavaMailTest {
                 MBoxWriterViaJavaMail writer = givenWriter();
                 writer.write(msg, outputStream);
             }
-            assertThat(Files.readString(testOut)).contains("To: \"'Andrea Pirchl'\" <a.pirchl@gmx.at>, \"'Martin Oberzalek'\" <kingleo@gmx.at>");
+            assertThat(readString(testOut)).contains("To: \"'Andrea Pirchl'\" <a.pirchl@gmx.at>, \"'Martin Oberzalek'\" <kingleo@gmx.at>");
         }
     }
 
@@ -111,7 +113,7 @@ class MBoxWriterViaJavaMailTest {
 
     private static Message givenMessage(String name) throws Exception {
         URI uri = MBoxWriterViaJavaMailTest.class.getResource(name).toURI();
-        return new MessageParser(Path.of(uri)).parseMessage();
+        return new MessageParser(Paths.get(uri)).parseMessage();
     }
 
     private static MBoxWriterViaJavaMail givenWriter() {

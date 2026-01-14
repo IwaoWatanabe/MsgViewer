@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 import static com.google.common.jimfs.Configuration.unix;
@@ -53,15 +54,24 @@ class MsgWriterTest {
                 DirectoryNode attachment = (DirectoryNode) root.getEntry("__attach_version1.0_#00000000");
                 DocumentEntry contentId = (DocumentEntry) attachment.getEntry("__substg1.0_3712001F");
                 try (DocumentInputStream stream = new DocumentInputStream(contentId)) {
-                    String contentIdValue = new String(stream.readAllBytes(), StandardCharsets.UTF_16LE);
+                    String contentIdValue = new String(readAllBytes(stream), StandardCharsets.UTF_16LE);
                     assertThat(contentIdValue).isEqualTo("part1.HRgTI02d.mjRZp5Gh@neuf.fr");
                 }
             }
         }
     }
 
+    static byte[] readAllBytes(java.io.InputStream in) throws java.io.IOException {
+        byte[] buffer = new byte[8192]; int n;
+        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+        while ((n = in.read(buffer)) != -1) {
+            baos.write(buffer, 0, n);
+        }
+        return baos.toByteArray();
+    }
+
     private static Message givenMessage(String name) throws Exception {
         URI uri = Objects.requireNonNull(MsgWriterTest.class.getResource(name)).toURI();
-        return new MessageParser(Path.of(uri)).parseMessage();
+        return new MessageParser(Paths.get(uri)).parseMessage();
     }
 }

@@ -12,11 +12,11 @@ class TableDesignTest {
     @Test
     void should_shift_edited_rows_on_removal() {
         TableDesign systemUnderTest = new TableDesign(null, emptyList());
-        systemUnderTest.addRows(List.of(
+        systemUnderTest.addRows(java.util.Arrays.asList(new DBConfig[]{
                 new DBConfig("row zero", "0", null),
                 new DBConfig("row one", "1", null),
                 new DBConfig("row two", "2", null)
-        ));
+        }));
         systemUnderTest.edited_rows.add(0);
         systemUnderTest.edited_rows.add(2);
 

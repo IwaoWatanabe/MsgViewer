@@ -2,6 +2,7 @@ package net.sourceforge.MSGViewer.rtfparser;
 
 import at.redeye.FrameWork.base.BaseModuleLauncher;
 import at.redeye.FrameWork.base.Root;
+import static net.sourceforge.MSGViewer.R8.repeat;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -86,7 +87,7 @@ public class testRTF2HTML extends BaseModuleLauncher {
                                 col = 40;
                             }
 
-                            String sb = " ".repeat(Math.max(0, col - 1)) + "^";
+                            String sb = repeat(" ", Math.max(0, col - 1)) + "^";
                             logger.error("\n\n" + ll + "\n" + sb);
                         }
                     }

@@ -14,5 +14,7 @@ dependency-reduced-pom.xml
 *.log
 *.jar
 *.txt
+*.java1
+
 
 

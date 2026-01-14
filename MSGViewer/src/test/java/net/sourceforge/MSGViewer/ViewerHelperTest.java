@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -45,7 +46,7 @@ class ViewerHelperTest {
 
             Path path = helper.extractUrl(uri, new Message());
 
-            assertEquals(Path.of("/dir", "toto.msg"), path);
+            assertEquals(Paths.get("/dir", "toto.msg"), path);
         }
     }
 }
