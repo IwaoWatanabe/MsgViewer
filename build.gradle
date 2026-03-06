@@ -23,6 +23,7 @@ dependencies {
   }
   else if (gradle.gradleVersion < '7.0') {
     classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
+    classpath 'ca.coglinc:javacc-gradle-plugin:2.4.0'
   }
   else {
     classpath 'com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:7.1.2'
